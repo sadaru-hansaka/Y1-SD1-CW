@@ -1,3 +1,5 @@
+import histogram
+
 #Progression outcomes as defined by the university regulations
 university_regulation_data = [
     [120, 0, 0, 'Progress'], # 1
@@ -32,10 +34,14 @@ university_regulation_data = [
 pass_credit=0
 fail_credit=0
 defer_credit=0
-total_of_credit=0
+total_of_credits= 0
 loop=''
+progress = 0
+trailer = 0
+retriever = 0
+exclude = 0
 
-#get students credit marks as inputs
+    #get students credit marks as inputs
 def input_credits(level):
     while True:
         try:
@@ -49,13 +55,16 @@ def input_credits(level):
             print("Integer required, please enter a valid number")# required integer msg
 
 
-def progression_outcome():
-    if total_of_credits != 120:
-        print("Total incorrect")
-        return
-    for credit in university_regulation_data:
-        if credit[0]==pass_credit and credit[1]==defer_credit and credit[2]==fail_credit:
-            print(credit[3])
+#def progression_outcome():
+    #obb = str
+    #if total_of_credits != 120:
+        #print("Total incorrect")
+        #return
+    #for credit in university_regulation_data:
+        #if credit[0]==pass_credit and credit[1]==defer_credit and credit[2]==fail_credit:
+            #obb = credit[3]
+            #print(obb)
+
 def qn():
     while True:
         loop = input("\nWould You like to enter another set of data?\nEnter 'y' for yes 0r 'q' to quit and view results :")
@@ -75,11 +84,34 @@ while True:
     defer_credit = input_credits("Defer")
     fail_credit = input_credits("Fail")
     total_of_credits = pass_credit+defer_credit+fail_credit
-    progression_outcome()
+
+    obb = str
+    if total_of_credits != 120:
+        print("Total incorrect")
+    for credit in university_regulation_data:
+        if credit[0]==pass_credit and credit[1]==defer_credit and credit[2]==fail_credit:
+            obb = credit[3]
+            print(obb)
+    #count the progress , exclude , Trailer , Retriever
+    if obb == "Progress":
+        progress+=1
+    elif obb == "Progress (module trailer)":
+        trailer+=1
+    elif obb == "Do not Progress - module retriever":
+        retriever +=1
+    elif obb == "Exclude":
+        exclude += 1
+    print(f"Progress = {progress}")
+    print(f"Trailer = {trailer}")
+    print(f"Retiever = {retriever}")
+    print(f"Exclude = {exclude}")
+
     loop=qn()
     if loop == "q":
+        histogram.graph()
         break
     elif loop == "y":
         continue
     elif (loop!="y" or loop!="q"):
         break
+    

@@ -1,13 +1,14 @@
-import histogram
+import histogram #import histogram.py file
+import part2
 
 #Progression outcomes as defined by the university regulations
 university_regulation_data = [
     [120, 0, 0, 'Progress'], # 1
     [100, 20, 0, 'Progress (module trailer)'], # 2
     [100, 0, 20, 'Progress (module trailer)'], # 3
-    [80, 40, 0, 'Do not Progress - module retriever'], # 4
-    [80, 20, 20, 'Do not Progress - module retriever'], # 5
-    [80, 0, 40, 'Do not Progress - module retriever'], # 6
+    [80, 40, 0, 'Do not progress - module retriever'], # 4
+    [80, 20, 20, 'Do not progress - module retriever'], # 5
+    [80, 0, 40, 'Do not progress - module retriever'], # 6
     [60, 60, 0, 'Do not progress - module retriever'], # 7
     [60, 40, 20, 'Do not progress - module retriever'], # 8
     [60, 20, 40, 'Do not progress - module retriever'], # 9
@@ -31,17 +32,23 @@ university_regulation_data = [
     [0, 20, 100, 'Exclude'], # 27
     [0, 0, 120, 'Exclude'] # 28
 ]
+
+#define variables
 pass_credit=0
 fail_credit=0
 defer_credit=0
 total_of_credits= 0
-loop=''
+continue_qn=''
 progress = 0
 trailer = 0
 retriever = 0
 exclude = 0
+outcome_count=0
+data=[]
 
-    #get students credit marks as inputs
+
+   
+#get students credit marks as inputs
 def input_credits(level):
     while True:
         try:
@@ -54,30 +61,16 @@ def input_credits(level):
         except ValueError:
             print("Integer required, please enter a valid number")# required integer msg
 
-
-#def progression_outcome():
-    #obb = str
-    #if total_of_credits != 120:
-        #print("Total incorrect")
-        #return
-    #for credit in university_regulation_data:
-        #if credit[0]==pass_credit and credit[1]==defer_credit and credit[2]==fail_credit:
-            #obb = credit[3]
-            #print(obb)
-
+#continue qn
 def qn():
     while True:
-        loop = input("\nWould You like to enter another set of data?\nEnter 'y' for yes 0r 'q' to quit and view results :")
-        loop=str(loop)
-        if loop=='y':
-            print("Continuing")
-            return "y"
-        elif (loop=="q"):
-            print("Thank you for using our system")
-            return "q"
+        continue_qn = input("\nWould You like to enter another set of data?\nEnter 'y' for yes 0r 'q' to quit and view results :")
+        continue_qn=str(continue_qn)
+        if continue_qn=='y' or continue_qn=="q":
+            return continue_qn
         else:
             print("Invalid input")
-            return loop
+       
 
 while True:
     pass_credit = input_credits("Pass")
@@ -88,30 +81,31 @@ while True:
     obb = str
     if total_of_credits != 120:
         print("Total incorrect")
-    for credit in university_regulation_data:
+    for credit in university_regulation_data: #check entered marks are in the list
         if credit[0]==pass_credit and credit[1]==defer_credit and credit[2]==fail_credit:
             obb = credit[3]
             print(obb)
+            outcome_count += 1 #count outcomes
+    data.append(f"{obb} - {pass_credit} , {defer_credit} , {fail_credit}")
+        # data=part2.add_to_a_list(obb,pass_credit,defer_credit,fail_credit)
+
     #count the progress , exclude , Trailer , Retriever
     if obb == "Progress":
         progress+=1
     elif obb == "Progress (module trailer)":
         trailer+=1
-    elif obb == "Do not Progress - module retriever":
+    elif obb == "Do not progress - module retriever":
         retriever +=1
     elif obb == "Exclude":
         exclude += 1
-    print(f"Progress = {progress}")
-    print(f"Trailer = {trailer}")
-    print(f"Retiever = {retriever}")
-    print(f"Exclude = {exclude}")
 
-    loop=qn()
-    if loop == "q":
-        histogram.graph()
+    continue_qn=qn()
+    if continue_qn == "q":
+        histogram.graph(progress,trailer,retriever,exclude,outcome_count) #histogram function
+        part2.list_of_history(data)
+        part2.create_txt(data)
         break
-    elif loop == "y":
+    elif continue_qn == "y":
         continue
-    elif (loop!="y" or loop!="q"):
-        break
+
     

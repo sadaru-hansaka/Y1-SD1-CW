@@ -6,6 +6,7 @@ def list_of_history(data):
     
 def create_txt(data):
     file = open("History of the marks.txt","w")
+    file.write("Part 3 :\n")
     for i in data:
-        file.write(f"{i}")
+        file.write(f"{i}\n")
     file.close()
